@@ -127,12 +127,39 @@
 				margin-top: 30px;
 			}
 		}
+
+		.katakana {
+			font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+			font-size: 1.05em;
+			margin-top: 0.2em;
+			transition: opacity 240ms ease, transform 240ms ease;
+			will-change: opacity, transform;
+			display: inline-block;
+		}
+
+		.katakana--hidden {
+			opacity: 0;
+			transform: translateY(-6px) scale(0.98);
+			pointer-events: none;
+			height: 0;
+			visibility: hidden;
+		}
+
+		.katakana--visible {
+			opacity: 1;
+			transform: none;
+			visibility: visible;
+			height: auto;
+		}
 	</style>
 </head>
 
 <body>
 	<header>
 		<h1>Timo Hardebusch</h1>
+		<div data-nosnippet>
+			<p id="katakana" class="katakana katakana--hidden" aria-hidden="true">ティモ・ハルデブッシュ</p>
+		</div>
 		<h2>The Friendly Computer Guy</h2>
 		<p>I build things for humans, write code for machines, and occasionally help both get along.</p>
 	</header>
@@ -160,8 +187,26 @@
 					No cookies, no tracking, no BS.</p>
 			</div>
 		</div>
-		<p class="last-updated">Last updated: 2026-03-01</p>
+		<p class="last-updated">Last updated: 2026-05-08</p>
 	</footer>
+
+	<script>
+		(function () {
+			const kat = document.getElementById('katakana');
+			const h1 = document.querySelector('header h1');
+			if (!kat || !h1) return;
+
+			function setVisible(v) {
+				kat.classList.toggle('katakana--visible', v);
+				kat.classList.toggle('katakana--hidden', !v);
+				kat.setAttribute('aria-hidden', String(!v));
+			}
+
+			function toggle() { setVisible(!kat.classList.contains('katakana--visible')); }
+
+			h1.addEventListener('dblclick', toggle);
+		})();
+	</script>
 </body>
 
 </html>
